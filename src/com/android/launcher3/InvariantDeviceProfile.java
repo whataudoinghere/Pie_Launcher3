@@ -18,6 +18,7 @@ package com.android.launcher3;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -30,6 +31,7 @@ import android.view.WindowManager;
 
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.util.Thunk;
+import com.android.launcher3.whatau.WhatauUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -138,8 +140,18 @@ public class InvariantDeviceProfile {
                 invDistWeightedInterpolate(minWidthDps,  minHeightDps, closestProfiles);
 
         InvariantDeviceProfile closestProfile = closestProfiles.get(0);
-        numRows = closestProfile.numRows;
-        numColumns = closestProfile.numColumns;
+
+        //Change grid
+        SharedPreferences prefs = Utilities.getPrefs(context);
+        if (prefs.getBoolean(WhatauUtils.HOME_CHANGE_GRID, false)) {
+            numRows = Integer.valueOf(prefs.getString(WhatauUtils.HOME_ROW, "4"));
+            numColumns = Integer.valueOf(prefs.getString(WhatauUtils.HOME_COLUMN, "5"));
+        } else {
+            numRows = closestProfile.numRows;
+            numColumns = closestProfile.numColumns;
+        }
+        //numRows = closestProfile.numRows;
+        //numColumns = closestProfile.numColumns;
         numHotseatIcons = closestProfile.numHotseatIcons;
         defaultLayoutId = closestProfile.defaultLayoutId;
         demoModeLayoutId = closestProfile.demoModeLayoutId;

@@ -122,6 +122,7 @@ import com.android.launcher3.util.TraceHelper;
 import com.android.launcher3.util.UiThreadHelper;
 import com.android.launcher3.util.ViewOnDrawExecutor;
 import com.android.launcher3.views.OptionsPopupView;
+import com.android.launcher3.whatau.WhatauUtils;
 import com.android.launcher3.widget.LauncherAppWidgetHostView;
 import com.android.launcher3.widget.PendingAddShortcutInfo;
 import com.android.launcher3.widget.PendingAddWidgetInfo;
@@ -247,9 +248,16 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
 
     private RotationHelper mRotationHelper;
 
-
     private final Handler mHandler = new Handler();
     private final Runnable mLogOnDelayedResume = this::logOnDelayedResume;
+
+    //
+    private static boolean restart;
+    //
+
+    public static void needRestart() {
+       restart = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -773,6 +781,10 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         TraceHelper.beginSection("ON_RESUME");
         super.onResume();
         TraceHelper.partitionSection("ON_RESUME", "superCall");
+
+        if (restart) {
+            WhatauUtils.restartLauncher();
+        }
 
         mHandler.removeCallbacks(mLogOnDelayedResume);
         Utilities.postAsyncCallback(mHandler, mLogOnDelayedResume);
