@@ -150,6 +150,7 @@ protobuf {
                         option "java_package=launcher_log_extension.proto|com.android.launcher3.userevent.nano"
                         option "java_package=launcher_log.proto|com.android.launcher3.userevent.nano"
                         option "java_package=launcher_dump.proto|com.android.launcher3.model.nano"
+                        option "java_package=search.proto|com.android.launcher3.qsb.search.nano"
                         option "enum_style=java"
                     }
                 }

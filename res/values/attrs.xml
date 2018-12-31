@@ -146,4 +146,8 @@
         <attr name="numMinRows" format="integer" />
         <attr name="numMinColumns" format="integer" />
     </declare-styleable>
+
+    <!-- Pixel -->
+    <attr name="gIcon" format="reference" />
+    <attr name="micIcon" format="reference" />
 </resources>

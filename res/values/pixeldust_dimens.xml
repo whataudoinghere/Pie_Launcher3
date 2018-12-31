@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2018 The Pixel Dust Project
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<resources>
+    <!-- QSB -->
+    <dimen name="hotseat_qsb_scroll_key_shadow_offset">2.0dip</dimen>
+    <dimen name="hotseat_qsb_scroll_shadow_blur_radius">1.5dip</dimen>
+    <dimen name="qsb_doodle_tap_target_logo_width">106.0dip</dimen>
+    <dimen name="qsb_margin_top_adjusting">20.0dip</dimen>
+    <dimen name="qsb_max_hint_length">130.0dip</dimen>
+    <dimen name="qsb_mic_width">56.0dip</dimen>
+    <dimen name="qsb_hint_text_size">13.0sp</dimen>
+    <dimen name="qsb_shadow_margin">6.0dip</dimen>
+    <dimen name="qsb_text_spacing">20.0dip</dimen>
+    <dimen name="qsb_two_bubble_gap">8.0dip</dimen>
+    <dimen name="qsb_widget_height">56.0dip</dimen>
+
+</resources>
