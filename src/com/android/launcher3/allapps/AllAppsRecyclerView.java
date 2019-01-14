@@ -33,11 +33,13 @@ import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.graphics.DrawableFactory;
 import com.android.launcher3.logging.UserEventDispatcher.LogContainerProvider;
 import com.android.launcher3.userevent.nano.LauncherLogProto.ContainerType;
 import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 import com.android.launcher3.views.RecyclerViewFastScroller;
+import com.android.launcher3.whatau.WhatauUtils;
 
 import java.util.List;
 
@@ -76,7 +78,9 @@ public class AllAppsRecyclerView extends BaseRecyclerView implements LogContaine
         Resources res = getResources();
         mEmptySearchBackgroundTopOffset = res.getDimensionPixelSize(
                 R.dimen.all_apps_empty_search_bg_top_offset);
-        mNumAppsPerRow = LauncherAppState.getIDP(context).numColumns;
+        if (Utilities.getPrefs(context).getBoolean(WhatauUtils.HOME_CHANGE_GRID, false)) {
+            mNumAppsPerRow = LauncherAppState.getIDP(context).numColumnsDrawer;
+        } else mNumAppsPerRow = LauncherAppState.getIDP(context).numColumnsOriginal;
     }
 
     /**
@@ -101,7 +105,7 @@ public class AllAppsRecyclerView extends BaseRecyclerView implements LogContaine
         pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_ICON, approxRows * mNumAppsPerRow);
 
         mViewHeights.clear();
-        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_ICON, grid.allAppsCellHeightPx);
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_ICON, grid.getAllAppsCellHeight(getContext()));
     }
 
     /**

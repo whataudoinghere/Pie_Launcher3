@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.BubbleTextView;
+import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.allapps.AlphabeticalAppsList.AdapterItem;
@@ -199,7 +200,7 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
         mGridLayoutMgr.setSpanSizeLookup(mGridSizer);
         mLayoutInflater = LayoutInflater.from(launcher);
 
-        mAppsPerRow = mLauncher.getDeviceProfile().inv.numColumns;
+        mAppsPerRow = mLauncher.getDeviceProfile().inv.numColumnsDrawer;
         mGridLayoutMgr.setSpanCount(mAppsPerRow);
     }
 
@@ -255,7 +256,8 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
                 icon.setOnFocusChangeListener(mIconFocusListener);
 
                 // Ensure the all apps icon height matches the workspace icons in portrait mode.
-                icon.getLayoutParams().height = mLauncher.getDeviceProfile().allAppsCellHeightPx;
+                //icon.getLayoutParams().height = mLauncher.getDeviceProfile().allAppsCellHeightPx;
+                icon.getLayoutParams().height = mLauncher.getDeviceProfile().getAllAppsCellHeight(mLauncher);
                 return new ViewHolder(icon);
             case VIEW_TYPE_EMPTY_SEARCH:
                 return new ViewHolder(mLayoutInflater.inflate(R.layout.all_apps_empty_search,

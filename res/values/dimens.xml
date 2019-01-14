@@ -223,4 +223,8 @@
 <!-- Overview -->
     <dimen name="options_menu_icon_size">24dp</dimen>
     <dimen name="options_menu_thumb_size">32dp</dimen>
+
+    <dimen name="dashboard_tile_image_size">36.0dip</dimen>
+    <dimen name="dashboard_tile_foreground_image_inset">6.0dip</dimen>
+    <dimen name="dashboard_tile_foreground_image_size">24.0dip</dimen>
 </resources>

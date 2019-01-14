@@ -5,40 +5,30 @@
     <PreferenceCategory android:title="@string/grid_size">
 
         <SwitchPreference
-            android:key="pref_change_home_grid_size"
+            android:key="pref_change_drawer_grid_size"
             android:defaultValue="false"
             android:disableDependentsState="false"
-            android:summaryOff="@string/custom_grid_size_off"
-            android:summaryOn="@string/custom_grid_size_on"
             android:title="@string/custom_grid_size" />
 
         <ListPreference
             android:defaultValue="5"
-            android:dependency="pref_change_home_grid_size"
+            android:dependency="pref_change_drawer_grid_size"
             android:entries="@array/grid_values"
             android:entryValues="@array/grid_values"
-            android:key="pref_home_columns"
+            android:key="pref_drawer_columns"
             android:persistent="true"
             android:summary="%s"
             android:title="@string/columns" />
 
         <ListPreference
             android:defaultValue="4"
-            android:dependency="pref_change_home_grid_size"
+            android:dependency="pref_change_drawer_grid_size"
             android:entries="@array/grid_values"
             android:entryValues="@array/grid_values"
-            android:key="pref_home_rows"
+            android:key="pref_drawer_rows"
             android:persistent="true"
             android:summary="%s"
             android:title="@string/rows" />
     </PreferenceCategory>
-
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        android:key="color1"
-        android:title="string/color1_title"
-        android:summary="string/color1_summary"
-        android:defaultValue="1"
-        alphaSlider="true"
-    />
 
 </PreferenceScreen>

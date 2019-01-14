@@ -93,7 +93,8 @@
             android:name="com.android.launcher3.SettingsActivity"
             android:label="@string/settings_button_text"
             android:theme="@android:style/Theme.DeviceDefault.Settings"
-            android:autoRemoveFromRecents="true">
+            android:autoRemoveFromRecents="true"
+            android:parentActivityName="com.android.launcher3.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -107,6 +108,15 @@
             android:theme="@android:style/Theme.DeviceDefault.Settings"
             android:autoRemoveFromRecents="true"
             android:parentActivityName="com.android.launcher3.SettingsActivity" />
+
+        <!-- Drawer -->
+        <activity
+            android:name="com.android.launcher3.whatau.settings.Drawer"
+            android:label="home_category_title"
+            android:theme="@android:style/Theme.DeviceDefault.Settings"
+            android:autoRemoveFromRecents="true"
+            android:parentActivityName="com.android.launcher3.SettingsActivity" />
+
 
 
         <!--

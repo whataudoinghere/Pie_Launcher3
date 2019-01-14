@@ -344,4 +344,15 @@
     <string name="work_mode_off_label">Notifications and apps are off</string>
     <string name="bottom_work_tab_user_education_close_button">Close</string>
     <string name="bottom_work_tab_user_education_closed">Closed</string>
+
+    <string name="settings_home_screen_title">Home screen</string>
+    <string name="settings_home_screen_summary">Home screen settings</string>
+
+    <string name="grid_size">Grid size</string>
+    <string name="custom_grid_size">Change grid size</string>
+    <string name="custom_grid_size_on">Use selected size</string>
+    <string name="custom_grid_size_off">Grid size depends on DPI</string>
+    <string name="rows">Number of rows</string>
+    <string name="columns">Number of columns</string>
+
 </resources>

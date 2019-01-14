@@ -68,6 +68,15 @@ public class InvariantDeviceProfile {
     public int numColumns;
 
     /**
+     * Number of icons per row and column in the drawer.
+     */
+    public int numRowsDrawer;
+    public int numColumnsDrawer;
+
+    public int numRowsOriginal;
+    public int numColumnsOriginal;
+
+    /**
      * Number of icons per row and column in the folder.
      */
     public int numFolderRows;
@@ -141,14 +150,22 @@ public class InvariantDeviceProfile {
 
         InvariantDeviceProfile closestProfile = closestProfiles.get(0);
 
-        //Change grid
+        numRows = numColumnsOriginal = closestProfile.numColumns;
+        numColumns = numRowsOriginal = closestProfile.numRows;
+
+        //Change grid on home screen
         SharedPreferences prefs = Utilities.getPrefs(context);
         if (prefs.getBoolean(WhatauUtils.HOME_CHANGE_GRID, false)) {
             numRows = Integer.valueOf(prefs.getString(WhatauUtils.HOME_ROW, "4"));
             numColumns = Integer.valueOf(prefs.getString(WhatauUtils.HOME_COLUMN, "5"));
-        } else {
-            numRows = closestProfile.numRows;
-            numColumns = closestProfile.numColumns;
+        }
+        //Change grid in drawer
+        if (prefs.getBoolean(WhatauUtils.DRAWER_CHANGE_GRID, false)) {
+            numRowsDrawer = Integer.valueOf(prefs.getString(WhatauUtils.DRAWER_ROW, "4"));
+            numColumnsDrawer = Integer.valueOf(prefs.getString(WhatauUtils.DRAWER_COLUMN, "5"));
+        } else  {
+            numRowsDrawer = closestProfile.numColumns;
+            numColumnsDrawer = closestProfile.numRows;
         }
         //numRows = closestProfile.numRows;
         //numColumns = closestProfile.numColumns;

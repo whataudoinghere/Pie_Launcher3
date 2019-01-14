@@ -31,6 +31,7 @@ import android.view.WindowManager;
 import com.android.launcher3.CellLayout.ContainerType;
 import com.android.launcher3.badge.BadgeRenderer;
 import com.android.launcher3.graphics.IconNormalizer;
+import com.android.launcher3.whatau.WhatauUtils;
 
 public class DeviceProfile {
 
@@ -408,6 +409,22 @@ public class DeviceProfile {
         result.y = calculateCellHeight(availableHeightPx - padding.y
                 - cellLayoutBottomPaddingPx, inv.numRows);
         return result;
+    }
+
+    private int getAllAppsPageHeight(Resources res) {
+        return getCurrentHeight() - res.getDimensionPixelSize(R.dimen.all_apps_header_top_padding);
+    }
+
+    public int getAllAppsCellHeight(Context context) {
+        Resources res = context.getResources();
+        if (Utilities.getPrefs(context).getBoolean(WhatauUtils.DRAWER_CHANGE_GRID, false)) return (isVerticalBarLayout()) ? allAppsCellHeightPx  : calculateCellHeight(getAllAppsPageHeight(res), (Integer.valueOf(Utilities.getPrefs(context).getString(WhatauUtils.DRAWER_ROW, "5"))) + 1);
+        else return (isVerticalBarLayout()) ? allAppsCellHeightPx  : calculateCellHeight(getAllAppsPageHeight(res), (inv.numRowsOriginal + 1));
+    }
+
+    private int getCurrentHeight() {
+        return isLandscape
+                ? Math.min(widthPx, heightPx)
+                : Math.max(widthPx, heightPx);
     }
 
     public Point getTotalWorkspacePadding() {

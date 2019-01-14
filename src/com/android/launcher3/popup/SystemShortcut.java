@@ -5,7 +5,9 @@ import static com.android.launcher3.userevent.nano.LauncherLogProto.ControlType;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.android.launcher3.AbstractFloatingView;
@@ -14,6 +16,7 @@ import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.ShortcutInfo;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.model.WidgetItem;
 import com.android.launcher3.util.InstantAppResolver;
 import com.android.launcher3.util.PackageManagerHelper;
@@ -65,6 +68,38 @@ public abstract class SystemShortcut<T extends BaseDraggingActivity> extends Ite
             };
         }
     }
+
+    public static class Uninstall extends SystemShortcut {
+        public Uninstall() {
+            super(R.drawable.ic_uninstall_no_shadow, R.string.uninstall_drop_target_label);
+        }
+
+        @Override
+        public View.OnClickListener getOnClickListener(
+                BaseDraggingActivity activity, ItemInfo itemInfo) {
+            boolean isSystemApp;
+            try {
+                isSystemApp = Utilities.isSystemApp(activity, itemInfo.getIntent());
+            } catch (Throwable t) {
+                isSystemApp = false;
+            }
+            if (isSystemApp) {
+                return null;
+            }
+            return (view) -> {
+                try {
+                    AbstractFloatingView.closeAllOpenViews(activity);
+                    Intent intent = new Intent(Intent.ACTION_DELETE);
+                    intent.setData(Uri.parse("package:" + itemInfo.getTargetComponent().getPackageName()));
+                    view.getContext().startActivity(intent);
+                } catch (Throwable t) {
+                    Log.e("UninstallShortcut", "Failed to start uninstall intent for: " + itemInfo.toString(), t);
+                }
+            };
+        }
+    }
+
+
 
     public static class AppInfo extends SystemShortcut {
         public AppInfo() {

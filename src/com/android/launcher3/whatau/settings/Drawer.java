@@ -33,7 +33,7 @@ import com.android.launcher3.R;
 import com.android.launcher3.SettingsActivity;
 import com.android.launcher3.whatau.WhatauUtils;
 
-public class Homescreen extends SettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
+public class Drawer extends SettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
 
     @Override
     protected void onCreate(final Bundle bundle) {
@@ -65,7 +65,7 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName(LauncherFiles.SHARED_PREFERENCES_KEY);
-            addPreferencesFromResource(R.xml.home_screen_preferences);
+            addPreferencesFromResource(R.xml.drawer_preferences);
 
             mContext = getActivity();
 
@@ -73,7 +73,7 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
             assert actionBar != null;
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-            final ListPreference gridColumns = (ListPreference) findPreference(WhatauUtils.HOME_COLUMN);
+            final ListPreference gridColumns = (ListPreference) findPreference(WhatauUtils.DRAWER_COLUMN);
             gridColumns.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     Launcher.needRestart();
@@ -81,7 +81,7 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
                 }
             });
 
-            final ListPreference gridRows = (ListPreference) findPreference(WhatauUtils.HOME_ROW);
+            final ListPreference gridRows = (ListPreference) findPreference(WhatauUtils.DRAWER_ROW);
             gridRows.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     Launcher.needRestart();
@@ -89,7 +89,7 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
                 }
             });
 
-            final SwitchPreference changeGrid = (SwitchPreference) findPreference(WhatauUtils.HOME_CHANGE_GRID);
+            final SwitchPreference changeGrid = (SwitchPreference) findPreference(WhatauUtils.DRAWER_CHANGE_GRID);
             changeGrid.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     Launcher.needRestart();
