@@ -59,6 +59,20 @@
         <include android:id="@+id/scrim_view"
             layout="@layout/scrim_view" />
 
+        <com.android.launcher3.graphics.GradientView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:launcher="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/gradient_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            launcher:layout_ignoreInsets="true" />
+
+        <com.android.launcher3.views.AllAppsScrim
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/all_apps_scrim"
+            launcher:layout_ignoreInsets="true" />
+
         <include
             android:id="@+id/apps_view"
             layout="@layout/all_apps"

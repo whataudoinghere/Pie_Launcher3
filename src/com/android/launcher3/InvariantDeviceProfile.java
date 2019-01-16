@@ -76,6 +76,8 @@ public class InvariantDeviceProfile {
     public int numRowsOriginal;
     public int numColumnsOriginal;
 
+    public int numPredictions;
+
     /**
      * Number of icons per row and column in the folder.
      */
@@ -150,7 +152,7 @@ public class InvariantDeviceProfile {
 
         InvariantDeviceProfile closestProfile = closestProfiles.get(0);
 
-        numRows = numColumnsOriginal = closestProfile.numColumns;
+        numRows = numColumnsOriginal = numPredictions = closestProfile.numColumns;
         numColumns = numRowsOriginal = closestProfile.numRows;
 
         //Change grid on home screen
@@ -162,7 +164,7 @@ public class InvariantDeviceProfile {
         //Change grid in drawer
         if (prefs.getBoolean(WhatauUtils.DRAWER_CHANGE_GRID, false)) {
             numRowsDrawer = Integer.valueOf(prefs.getString(WhatauUtils.DRAWER_ROW, "4"));
-            numColumnsDrawer = Integer.valueOf(prefs.getString(WhatauUtils.DRAWER_COLUMN, "5"));
+            numColumnsDrawer = numPredictions = Integer.valueOf(prefs.getString(WhatauUtils.DRAWER_COLUMN, "5"));
         } else  {
             numRowsDrawer = closestProfile.numColumns;
             numColumnsDrawer = closestProfile.numRows;

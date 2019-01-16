@@ -79,7 +79,7 @@ public class AllAppsContainerView extends SpringRelativeLayout implements DragSo
     private SearchUiManager mSearchUiManager;
     private View mSearchContainer;
     private AllAppsPagedView mViewPager;
-    private FloatingHeaderView mHeader;
+    private PredictionsFloatingHeader mHeader;
 
     private SpannableStringBuilder mSearchQueryBuilder = null;
 
@@ -249,7 +249,7 @@ public class AllAppsContainerView extends SpringRelativeLayout implements DragSo
             }
         });
 
-        mHeader = findViewById(R.id.all_apps_header);
+        mHeader = (PredictionsFloatingHeader) findViewById(R.id.all_apps_header);
         rebindAdapters(mUsingTabs, true /* force */);
 
         mSearchContainer = findViewById(R.id.search_container_all_apps);
@@ -386,7 +386,7 @@ public class AllAppsContainerView extends SpringRelativeLayout implements DragSo
         return mAH[AdapterHolder.MAIN].appsList;
     }
 
-    public FloatingHeaderView getFloatingHeaderView() {
+    public PredictionsFloatingHeader getFloatingHeaderView() {
         return mHeader;
     }
 

@@ -212,7 +212,7 @@ public class WorkspaceAndHotseatScrim implements
     }
 
     public void onInsetsChanged(Rect insets) {
-        mDrawTopScrim = insets.top > 0;
+        mDrawTopScrim = true;
         mDrawBottomScrim = !mLauncher.getDeviceProfile().isVerticalBarLayout();
     }
 

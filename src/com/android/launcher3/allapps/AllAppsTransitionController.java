@@ -26,10 +26,13 @@ import com.android.launcher3.LauncherState;
 import com.android.launcher3.LauncherStateManager.AnimationConfig;
 import com.android.launcher3.LauncherStateManager.StateHandler;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.anim.AnimationSuccessListener;
 import com.android.launcher3.anim.AnimatorSetBuilder;
 import com.android.launcher3.anim.PropertySetter;
+import com.android.launcher3.graphics.GradientView;
 import com.android.launcher3.util.Themes;
+import com.android.launcher3.views.AllAppsScrim;
 import com.android.launcher3.views.ScrimView;
 
 /**
@@ -60,6 +63,8 @@ public class AllAppsTransitionController implements StateHandler, OnDeviceProfil
 
     private AllAppsContainerView mAppsView;
     private ScrimView mScrimView;
+    private AllAppsScrim mAllAppsScrim;
+    private GradientView mGradientView;
 
     private final Launcher mLauncher;
     private final boolean mIsDarkTheme;
@@ -121,8 +126,17 @@ public class AllAppsTransitionController implements StateHandler, OnDeviceProfil
         mScrimView.setProgress(progress);
         float shiftCurrent = progress * mShiftRange;
 
+        float workspaceHotseatAlpha = Utilities.boundToRange(progress, 0f, 1f);
+        float alpha = 1 - workspaceHotseatAlpha;
+        updateAllAppsBg(alpha);
+
         mAppsView.setTranslationY(shiftCurrent);
         float hotseatTranslation = -mShiftRange + shiftCurrent;
+
+        if (mAllAppsScrim == null) {
+            mAllAppsScrim = mLauncher.findViewById(R.id.all_apps_scrim);
+        }
+        mAllAppsScrim.setProgress(hotseatTranslation, alpha);
 
         if (!mIsVerticalLayout) {
             mLauncher.getHotseat().setTranslationY(hotseatTranslation);
@@ -138,6 +152,14 @@ public class AllAppsTransitionController implements StateHandler, OnDeviceProfil
         } else {
             mLauncher.getSystemUiController().updateUiState(UI_STATE_ALL_APPS, 0);
         }
+    }
+
+    private void updateAllAppsBg(float progress) {
+        // gradient
+        if (mGradientView == null) {
+            mGradientView = mLauncher.findViewById(R.id.gradient_bg);
+        }
+        mGradientView.setProgress(progress);
     }
 
     public float getProgress() {

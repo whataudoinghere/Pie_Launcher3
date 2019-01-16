@@ -91,6 +91,7 @@ import com.android.launcher3.folder.FolderIconPreviewVerifier;
 import com.android.launcher3.keyboard.CustomActionsPopup;
 import com.android.launcher3.keyboard.ViewGroupFocusHelper;
 import com.android.launcher3.logging.FileLog;
+import com.android.launcher3.logging.PredictionsDispatcher;
 import com.android.launcher3.logging.UserEventDispatcher;
 import com.android.launcher3.logging.UserEventDispatcher.UserEventDelegate;
 import com.android.launcher3.model.ModelWriter;
@@ -108,6 +109,7 @@ import com.android.launcher3.userevent.nano.LauncherLogProto.ContainerType;
 import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 import com.android.launcher3.util.ActivityResultInfo;
 import com.android.launcher3.util.ComponentKey;
+import com.android.launcher3.util.ComponentKeyMapper;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.MultiHashMap;
 import com.android.launcher3.util.MultiValueAlpha;
@@ -132,6 +134,8 @@ import com.android.launcher3.widget.WidgetHostViewLoader;
 import com.android.launcher3.widget.WidgetListRowEntry;
 import com.android.launcher3.widget.WidgetsFullSheet;
 import com.android.launcher3.widget.custom.CustomWidgetParser;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -252,12 +256,32 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
     private final Runnable mLogOnDelayedResume = this::logOnDelayedResume;
 
     //
+    private SharedPreferenceChangeHandler mSharedPreferenceChangeHandler;
+
     private static boolean restart;
     //
 
     public static void needRestart() {
        restart = true;
     }
+
+    /*
+    public Runnable mUpdatePredictionsIfResumed = new Runnable() {
+        @Override
+        public void run() {
+            updatePredictions(true);
+        }
+    };
+    */
+
+    public void updatePredictions(boolean force) {
+        if (hasBeenResumed() || force) {
+            List<ComponentKeyMapper> apps = ((PredictionsDispatcher) getUserEventDispatcher()).getPredictedApps();
+            if (apps != null) {
+                mAppsView.getFloatingHeaderView().setPredictedApps(mSharedPrefs.getBoolean("pref_app_suggestions", true), apps);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,6 +312,9 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         mSharedPrefs = Utilities.getPrefs(this);
         mIconCache = app.getIconCache();
         mAccessibilityDelegate = new LauncherAccessibilityDelegate(this);
+
+        mSharedPreferenceChangeHandler = new SharedPreferenceChangeHandler();
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(mSharedPreferenceChangeHandler);
 
         mDragController = new DragController(this);
         mAllAppsController = new AllAppsTransitionController(this);
@@ -801,6 +828,26 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onResume();
         }
+
+        /*
+        Handler handler = getDragLayer().getHandler();
+        if (handler != null) {
+            handler.removeCallbacks(mUpdatePredictionsIfResumed);
+            Utilities.postAsyncCallback(handler, mUpdatePredictionsIfResumed);
+        }
+        */
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                updatePredictions(true);
+            }
+
+        }, 3000);
+
+
         UiFactory.onLauncherStateOrResumeChanged(this);
 
         TraceHelper.endSection("ON_RESUME");
@@ -2430,7 +2477,17 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
      * Callback for listening for onResume
      */
     public interface OnResumeCallback {
-
         void onLauncherResume();
+    }
+
+    private class SharedPreferenceChangeHandler implements OnSharedPreferenceChangeListener {
+
+        @Override
+        public void onSharedPreferenceChanged(
+                SharedPreferences sharedPreferences, String key) {
+            if (WhatauUtils.KEY_APP_SUGGESTIONS.equals(key)) {
+                updatePredictions(true);
+            }
+        }
     }
 }

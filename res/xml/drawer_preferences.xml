@@ -31,4 +31,11 @@
             android:title="@string/rows" />
     </PreferenceCategory>
 
+    <SwitchPreference
+        android:title="@string/app_suggestions_title"
+        android:key="pref_app_suggestions"
+        android:summary="@string/app_suggestions_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
 </PreferenceScreen>
